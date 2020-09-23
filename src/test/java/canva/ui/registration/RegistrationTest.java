@@ -29,7 +29,12 @@ public class RegistrationTest {
         driver = new ChromeDriver();
         registrationPage = new RegistrationPage(driver);
         greetingPage = new GreetingPage(driver);
+
         driver.manage().window().maximize();
+
+        registrationPage.open();
+        registrationPage.chooseSignUpWithEmail();
+        assertTrue(registrationPage.atPage());
     }
 
     @AfterMethod
@@ -41,73 +46,67 @@ public class RegistrationTest {
 
     @Test
     public void registerNewAccountWithCorrectData_shouldGoToGreetingPage() {
-        registrationPage.open();
-        registrationPage.chooseSignUpWithEmail();
-        assertTrue(registrationPage.atPage());
-        registrationPage.enterName("SomeName");
-        registrationPage.enterEmail();
-        registrationPage.enterPassword("Qwerty_12345");
+        registrationPage.enterRegisterData(
+                "SomeName",
+                "Qwerty_12345");
+
         registrationPage.clickRegister();
+
         assertTrue(greetingPage.atPage());
         assertTrue(greetingPage.isTopicListAvailable());
     }
 
     @Test
     public void registerNewAccountWithIncorrectEmail_shouldShowIncorrectEmailMsg() {
-        registrationPage.open();
-        registrationPage.chooseSignUpWithEmail();
-        assertTrue(registrationPage.atPage());
-        registrationPage.enterName("SomeName");
-        registrationPage.enterEmail("Incorrect_email");
-        registrationPage.enterPassword("Qwerty_12345");
+        registrationPage.enterRegisterData(
+                "SomeName",
+                "Incorrect_email",
+                "Qwerty_12345");
+
         assertTrue(registrationPage.isErrorMsgForIncorrectEmailAvailable());
         assertFalse(greetingPage.atPage());
     }
 
     @Test
     public void registerNewAccountWithWeekPassword_shouldShowWeekPasswordMsg() {
-        registrationPage.open();
-        registrationPage.chooseSignUpWithEmail();
-        assertTrue(registrationPage.atPage());
-        registrationPage.enterName("SomeName");
-        registrationPage.enterEmail("some.email@gmail.com");
-        registrationPage.enterPassword("aaaaaaaa");
+        registrationPage.enterRegisterData(
+                "SomeName",
+                "some.email@gmail.com",
+                "aaaaaaaa");
+
         assertTrue(registrationPage.isErrorMsgForWeekPasswordAvailable());
         assertFalse(greetingPage.atPage());
     }
 
     @Test
     public void registerNewAccountWithShortPassword_shouldShowShortPasswordMsg() {
-        registrationPage.open();
-        registrationPage.chooseSignUpWithEmail();
-        assertTrue(registrationPage.atPage());
-        registrationPage.enterName("SomeName");
-        registrationPage.enterEmail("some.email@gmail.com");
-        registrationPage.enterPassword("a");
+        registrationPage.enterRegisterData(
+                "SomeName",
+                "some.email@gmail.com",
+                "a");
+
         assertTrue(registrationPage.isErrorMsgForShortPasswordAvailable());
         assertFalse(greetingPage.atPage());
     }
 
     @Test
     public void registerNewAccountWithSpaceOnlyDataUsingShortPassword_shouldShowShortPasswordMsg() {
-        registrationPage.open();
-        registrationPage.chooseSignUpWithEmail();
-        assertTrue(registrationPage.atPage());
-        registrationPage.enterName("          ");
-        registrationPage.enterEmail("          ");
-        registrationPage.enterPassword("  ");
+        registrationPage.enterRegisterData(
+                "          ",
+                "          ",
+                "  ");
+
         assertTrue(registrationPage.isErrorMsgForShortPasswordAvailable());
         assertFalse(greetingPage.atPage());
     }
 
     @Test
     public void registerNewAccountWithSpaceOnlyDataUsingWeekPassword_shouldShowWeekPasswordMsg() {
-        registrationPage.open();
-        registrationPage.chooseSignUpWithEmail();
-        assertTrue(registrationPage.atPage());
-        registrationPage.enterName("          ");
-        registrationPage.enterEmail("          ");
-        registrationPage.enterPassword("          ");
+        registrationPage.enterRegisterData(
+                "          ",
+                "          ",
+                "          ");
+
         assertTrue(registrationPage.isErrorMsgForWeekPasswordAvailable());
         assertFalse(greetingPage.atPage());
     }

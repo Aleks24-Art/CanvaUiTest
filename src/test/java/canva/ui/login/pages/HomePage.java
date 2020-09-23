@@ -25,6 +25,7 @@ public class HomePage {
             WebDriverWait wait = new WebDriverWait(driver, 2);
             atPage = wait.until(ExpectedConditions.titleIs(EXPECTED_TITLE));
         } catch (TimeoutException e) {
+            System.out.println("Did not enter at home page " + e.getMessage());
             atPage = false;
         }
         return atPage;

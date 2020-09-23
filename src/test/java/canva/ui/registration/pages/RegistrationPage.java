@@ -53,19 +53,31 @@ public class RegistrationPage {
         driver.get(LOGIN_PAGE_URL);
     }
 
-    public void enterName(String name) {
+    public void enterRegisterData(String name, String email, String password) {
+        enterName(name);
+        enterEmail(email);
+        enterPassword(password);
+    }
+
+    public void enterRegisterData(String name, String password) {
+        enterName(name);
+        enterEmail();
+        enterPassword(password);
+    }
+
+    private void enterName(String name) {
         nameField.sendKeys(name);
     }
 
-    public void enterEmail(String email) {
+    private void enterEmail(String email) {
         emailField.sendKeys(email);
     }
 
-    public void enterEmail() {
+    private void enterEmail() {
         emailField.sendKeys(new Generex("\\w{20}\\@gmail\\.com").random());
     }
 
-    public void enterPassword(String password) {
+    private void enterPassword(String password) {
         passwordField.sendKeys(password);
     }
 

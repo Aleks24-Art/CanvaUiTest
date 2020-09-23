@@ -46,11 +46,16 @@ public class LoginPage {
         driver.get(LOGIN_PAGE_URL);
     }
 
-    public void enterEmail(String login) {
+    public void enterLoginData(String email, String password) {
+        enterEmail(email);
+        enterPassword(password);
+    }
+
+    private void enterEmail(String login) {
         emailField.sendKeys(login);
     }
 
-    public void enterPassword(String password) {
+    private void enterPassword(String password) {
         passwordField.sendKeys(password);
     }
 

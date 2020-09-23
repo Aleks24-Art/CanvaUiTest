@@ -36,7 +36,14 @@ public class GreetingPage {
     }
 
     public boolean isTopicListAvailable() {
-        System.out.println(topicListWindow.getText());
-        return topicListWindow.getText().equals(EXPECTED_TOPIC_LIST_TITLE);
+        boolean isAvailable;
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, 3, 100);
+            isAvailable = wait.until(ExpectedConditions.textToBePresentInElement(topicListWindow, EXPECTED_TOPIC_LIST_TITLE));
+        } catch (TimeoutException e) {
+            isAvailable = false;
+            System.out.println("Topic list is missing " + e.getMessage());
+        }
+        return isAvailable;
     }
 }

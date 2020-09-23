@@ -30,6 +30,8 @@ public class LoginTest {
         loginPage = new LoginPage(driver);
         homePage = new HomePage(driver);
         driver.manage().window().maximize();
+        loginPage.open();
+        assertTrue(loginPage.atPage());
     }
 
     @AfterMethod
@@ -41,75 +43,81 @@ public class LoginTest {
 
     @Test
     public void loginWithCorrectLoginAndPassword_shouldGoToHomePage() {
-        loginPage.open();
-        assertTrue(loginPage.atPage());
-        loginPage.enterEmail("aaaqqqwwwsss@gmail.com");
-        loginPage.enterPassword("Correct_password");
+        loginPage.enterLoginData(
+                "aaaqqqwwwsss@gmail.com",
+                "Correct_password");
+
         loginPage.clickLogin();
+
         assertTrue(homePage.atPage());
     }
 
     @Test
     public void loginWithCorrectLoginAndIncorrectPassword_shouldShowIncorrectPasswordMsg() {
-        loginPage.open();
-        assertTrue(loginPage.atPage());
-        loginPage.enterEmail("aaaqqqwwwsss@gmail.com");
-        loginPage.enterPassword("Incorrect_password");
+        loginPage.enterLoginData(
+                "aaaqqqwwwsss@gmail.com",
+                "Incorrect_password");
+
         loginPage.clickLogin();
+
         assertFalse(homePage.atPage());
         assertTrue(loginPage.isErrorMsgForIncorrectPasswordAvailable());
     }
 
     @Test
     public void loginWithIncorrectLoginAndCorrectPassword_shouldShowIncorrectEmailMsg() {
-        loginPage.open();
-        assertTrue(loginPage.atPage());
-        loginPage.enterEmail("Incorrect_login");
-        loginPage.enterPassword("Correct_password");
+        loginPage.enterLoginData(
+                "Incorrect_login",
+                "Correct_password");
+
         loginPage.clickLogin();
+
         assertFalse(homePage.atPage());
         assertTrue(loginPage.isErrorMsgForIncorrectEmailAvailable());
     }
 
     @Test
     public void loginWithIncorrectLoginAndIncorrectPassword_shouldShowIncorrectEmailMsg() {
-        loginPage.open();
-        assertTrue(loginPage.atPage());
-        loginPage.enterEmail("Incorrect_login");
-        loginPage.enterPassword("Incorrect_password");
+        loginPage.enterLoginData(
+                "Incorrect_login",
+                "Incorrect_password");
+
         loginPage.clickLogin();
+
         assertFalse(homePage.atPage());
         assertTrue(loginPage.isErrorMsgForIncorrectEmailAvailable());
     }
 
     @Test
     public void loginWithSpaceOnlyLoginAndPassword_shouldShowErrorOnlySpaceMsg() {
-        loginPage.open();
-        assertTrue(loginPage.atPage());
-        loginPage.enterEmail("   ");
-        loginPage.enterPassword("      ");
+        loginPage.enterLoginData(
+                "   ",
+                "      ");
+
         loginPage.clickLogin();
+
         assertFalse(homePage.atPage());
         assertTrue(loginPage.isErrorMsgForEnterOnlySpaceAvailable());
     }
 
     @Test
     public void loginWithEmptyLoginAndPassword_shouldShowErrorEmailMsg() {
-        loginPage.open();
-        assertTrue(loginPage.atPage());
-        loginPage.enterEmail("");
-        loginPage.enterPassword("");
+        loginPage.enterLoginData(
+                "",
+                "");
+
         loginPage.clickLogin();
+
         assertFalse(homePage.atPage());
         assertTrue(loginPage.isErrorMsgForEmailAvailable());
     }
 
     @Test
     public void loginWithSpecSymbols_shouldShowErrorEmailMsg() {
-        loginPage.open();
-        assertTrue(loginPage.atPage());
-        loginPage.enterEmail("/\\:*?\"<>{}[]|");
-        loginPage.enterPassword("/\\:*?\"<>{}[]|");
+        loginPage.enterLoginData(
+                "/\\:*?\"<>{}[]|",
+                "/\\:*?\"<>{}[]|");
+
         assertFalse(homePage.atPage());
         assertTrue(loginPage.isErrorMsgForEmailAvailable());
     }
