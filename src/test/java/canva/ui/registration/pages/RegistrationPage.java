@@ -1,13 +1,19 @@
 package canva.ui.registration.pages;
 
+import com.mifmif.common.regex.Generex;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class RegistrationPage {
     private static final String LOGIN_PAGE_URL = "https://www.canva.com/signup";
     private static final String EXPECTED_TITLE = "Работайте сообща и бесплатно создавайте потрясающие дизайны";
+    private static final String EXPECTED_INCORRECT_EMAIL_MSG = "Введите действительный электронный адрес.";
+    private static final String EXPECTED_WEEK_PASSWORD_MSG = "Крайне ненадежный";
+    private static final String EXPECTED_SHORT_PASSWORD_MSG = "Используйте комбинацию из букв, чисел и символов. Минимальное количество знаков: 8.";
 
     private final WebDriver driver;
 
@@ -29,6 +35,14 @@ public class RegistrationPage {
     @FindBy(xpath = "//*[@id=\"root\"]/div/main/div[6]/div/section/div/div/div/div/div/div/button/span")
     private WebElement signUpWithEmail;
 
+    @FindBy(xpath = "//*[@id=\"root\"]/div/main/div[6]/div/section/div/div/div/div/div/div/div[2]/form/div[2]/p")
+    private WebElement incorrectEmailMsg;
+
+    @FindBy(xpath = "//*[@id=\"root\"]/div/main/div[6]/div/section/div/div/div/div/div/div/div[2]/form/div[3]/div/div/span[1]")
+    private WebElement weekPasswordMsg;
+
+    @FindBy(xpath = "//*[@id=\"root\"]/div/main/div[6]/div/section/div/div/div/div/div/div/div[2]/form/div[3]/div/div/span")
+    private WebElement shortPasswordMsg;
 
     public RegistrationPage(WebDriver driver) {
         this.driver = driver;
@@ -47,6 +61,10 @@ public class RegistrationPage {
         emailField.sendKeys(email);
     }
 
+    public void enterEmail() {
+        emailField.sendKeys(new Generex("\\w{20}\\@gmail\\.com").random());
+    }
+
     public void enterPassword(String password) {
         passwordField.sendKeys(password);
     }
@@ -63,18 +81,21 @@ public class RegistrationPage {
         signUpWithEmail.click();
     }
 
-   // public boolean isErrorMsgAvailable() {
-     //   return errorMsg.getText().equals(EXPECTED_ERROR_MSG);
-   // }
+    public boolean isErrorMsgForIncorrectEmailAvailable() {
+        return incorrectEmailMsg.getText().equals(EXPECTED_INCORRECT_EMAIL_MSG);
+    }
+
+    public boolean isErrorMsgForWeekPasswordAvailable() {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, 2);
+            wait.until(x -> shortPasswordMsg.isEnabled());
+        } catch (TimeoutException e) {
+            System.out.println(e.getMessage());
+        }
+        return weekPasswordMsg.getText().equals(EXPECTED_WEEK_PASSWORD_MSG);
+    }
+
+    public boolean isErrorMsgForShortPasswordAvailable() {
+        return shortPasswordMsg.getText().equals(EXPECTED_SHORT_PASSWORD_MSG);
+    }
 }
-
-//aleks.artem24@gmail.com
-//Correct_password
-
-// //*[@id="form_reg"]/div/div[1]/div[1]/label - xpath icon
-// //*[@id="send_btn"] - xpath btn dalee
-
-
-// https://www.canva.com/login
-//aaaqqqwwwsss@gmail.com
-// https://www.canva.com/signup

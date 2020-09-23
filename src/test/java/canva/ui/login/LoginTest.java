@@ -3,7 +3,6 @@ package canva.ui.login;
 import canva.ui.login.pages.HomePage;
 import canva.ui.login.pages.LoginPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterMethod;
@@ -41,7 +40,7 @@ public class LoginTest {
     }
 
     @Test
-    public void loginWithCorrectLoginAndPassword() {
+    public void loginWithCorrectLoginAndPassword_shouldGoToHomePage() {
         loginPage.open();
         assertTrue(loginPage.atPage());
         loginPage.enterEmail("aaaqqqwwwsss@gmail.com");
@@ -51,7 +50,7 @@ public class LoginTest {
     }
 
     @Test
-    public void loginWithCorrectLoginAndIncorrectPassword() {
+    public void loginWithCorrectLoginAndIncorrectPassword_shouldShowIncorrectPasswordMsg() {
         loginPage.open();
         assertTrue(loginPage.atPage());
         loginPage.enterEmail("aaaqqqwwwsss@gmail.com");
@@ -62,7 +61,7 @@ public class LoginTest {
     }
 
     @Test
-    public void loginWithIncorrectLoginAndCorrectPassword() {
+    public void loginWithIncorrectLoginAndCorrectPassword_shouldShowIncorrectEmailMsg() {
         loginPage.open();
         assertTrue(loginPage.atPage());
         loginPage.enterEmail("Incorrect_login");
@@ -73,7 +72,7 @@ public class LoginTest {
     }
 
     @Test
-    public void loginWithIncorrectLoginAndIncorrectPassword() {
+    public void loginWithIncorrectLoginAndIncorrectPassword_shouldShowIncorrectEmailMsg() {
         loginPage.open();
         assertTrue(loginPage.atPage());
         loginPage.enterEmail("Incorrect_login");
@@ -84,7 +83,7 @@ public class LoginTest {
     }
 
     @Test
-    public void loginWithSpaceOnlyLoginAndPassword() {
+    public void loginWithSpaceOnlyLoginAndPassword_shouldShowErrorOnlySpaceMsg() {
         loginPage.open();
         assertTrue(loginPage.atPage());
         loginPage.enterEmail("   ");
@@ -95,7 +94,7 @@ public class LoginTest {
     }
 
     @Test
-    public void loginWithEmptyLoginAndPassword() {
+    public void loginWithEmptyLoginAndPassword_shouldShowErrorEmailMsg() {
         loginPage.open();
         assertTrue(loginPage.atPage());
         loginPage.enterEmail("");
@@ -106,12 +105,11 @@ public class LoginTest {
     }
 
     @Test
-    public void loginWithSpecSymbols() {
+    public void loginWithSpecSymbols_shouldShowErrorEmailMsg() {
         loginPage.open();
         assertTrue(loginPage.atPage());
         loginPage.enterEmail("/\\:*?\"<>{}[]|");
         loginPage.enterPassword("/\\:*?\"<>{}[]|");
-        //loginPage.clickLogin();
         assertFalse(homePage.atPage());
         assertTrue(loginPage.isErrorMsgForEmailAvailable());
     }

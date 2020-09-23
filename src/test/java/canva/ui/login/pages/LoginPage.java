@@ -4,8 +4,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class LoginPage {
 
@@ -57,8 +55,6 @@ public class LoginPage {
     }
 
     public void clickLogin() {
-        /*WebDriverWait wait = new WebDriverWait(driver, 10);
-        wait.until(ExpectedConditions.elementToBeClickable(loginBtn));*/
         loginBtn.click();
     }
 
@@ -67,7 +63,6 @@ public class LoginPage {
     }
 
     public boolean isErrorMsgForIncorrectEmailAvailable() {
-        System.out.println("AAA " + incorrectEmailMsg.getText());
         return incorrectEmailMsg.getText().equals(EXPECTED_INCORRECT_EMAIL_MSG);
     }
 
@@ -82,4 +77,6 @@ public class LoginPage {
     public boolean isErrorMsgForEnterOnlySpaceAvailable() {
         return errorEnterOnlySpaceMsg.getText().equals(EXPECTED_ERROR_ENTER_ONLY_SPACE_MSG);
     }
+
+
 }
