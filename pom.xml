@@ -16,6 +16,7 @@
         <selenium-java.version>3.141.59</selenium-java.version>
         <testng.version>7.3.0</testng.version>
         <allure.version>2.13.5</allure.version>
+        <generex.version>1.0.2</generex.version>
     </properties>
 
     <dependencies>
@@ -49,10 +50,11 @@
             <version>${webdrivermanager.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/net.andreinc.mockneat/mockneat -->
+        <!-- Generate random email -->
         <dependency>
             <groupId>com.github.mifmif</groupId>
             <artifactId>generex</artifactId>
-            <version>1.0.2</version>
+            <version>${generex.version}</version>
         </dependency>
 
     </dependencies>
