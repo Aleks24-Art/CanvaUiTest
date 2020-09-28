@@ -99,7 +99,7 @@ public class RegistrationPage {
 
     public boolean isErrorMsgForWeekPasswordAvailable() {
         try {
-            WebDriverWait wait = new WebDriverWait(driver, 2);
+            WebDriverWait wait = new WebDriverWait(driver, 4);
             wait.until(x -> shortPasswordMsg.isEnabled());
         } catch (TimeoutException e) {
             System.out.println(e.getMessage());
